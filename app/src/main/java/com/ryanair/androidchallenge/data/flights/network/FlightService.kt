@@ -1,6 +1,6 @@
-package com.ryanair.androidchallenge.flights.network
+package com.ryanair.androidchallenge.data.flights.network
 
-import com.ryanair.androidchallenge.flights.network.model.FlightResponse
+import com.ryanair.androidchallenge.data.flights.network.model.FlightResponse
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Query

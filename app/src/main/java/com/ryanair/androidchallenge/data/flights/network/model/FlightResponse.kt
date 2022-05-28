@@ -1,4 +1,4 @@
-package com.ryanair.androidchallenge.flights.network.model
+package com.ryanair.androidchallenge.data.flights.network.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

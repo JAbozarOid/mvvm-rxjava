@@ -1,9 +1,9 @@
 package com.ryanair.androidchallenge.di
 
 import com.ryanair.androidchallenge.BuildConfig
-import com.ryanair.androidchallenge.airports.network.AirportService
-import com.ryanair.androidchallenge.flights.network.FlightService
-import com.ryanair.androidchallenge.airports.network.RoutesService
+import com.ryanair.androidchallenge.data.airports.network.AirportService
+import com.ryanair.androidchallenge.data.flights.network.FlightService
+import com.ryanair.androidchallenge.data.airports.network.RoutesService
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
