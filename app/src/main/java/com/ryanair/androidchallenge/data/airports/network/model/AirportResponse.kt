@@ -1,46 +1,74 @@
 package com.ryanair.androidchallenge.data.airports.network.model
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
-@JsonClass(generateAdapter = true)
+@Parcelize
 data class AirportResponse(
-    @Json(name = "code") val code: String?,
-    @Json(name = "name") val name: String?,
-    @Json(name = "seoName") val seoName: String?,
-    @Json(name = "base") val isBase: Boolean?,
-    @Json(name = "timeZone") val timeZone: String?,
-    @Json(name = "city") val city: City?,
-    @Json(name = "macCity") val macCity: MacCity?,
-    @Json(name = "region") val region: Region?,
-    @Json(name = "country") val country: Country?,
-    @Json(name = "coordinates") val coordinates: Coordinates?
-) {
+    @SerializedName("code")
+    val code: String?,
+    @SerializedName("name")
+    val name: String?,
+    @SerializedName("seoName")
+    val seoName: String?,
+    @SerializedName("base")
+    val isBase: Boolean?,
+    @SerializedName("timeZone")
+    val timeZone: String?,
+    @SerializedName("city")
+    val city: @RawValue City?,
+    @SerializedName("macCity")
+    val macCity: @RawValue MacCity?,
+    @SerializedName("region")
+    val region: @RawValue Region?,
+    @SerializedName("country")
+    val country: @RawValue Country?,
+    @SerializedName("coordinates")
+    val coordinates: @RawValue Coordinates?
+) : Parcelable
 
-    data class City(
-        @Json(name = "code") val code: String?,
-        @Json(name = "name") val name: String?
-    )
+@Parcelize
+data class City(
+    @SerializedName("code")
+    val code: String?,
+    @SerializedName("name")
+    val name: String?
+) : Parcelable
 
-    data class MacCity(
-        @Json(name = "code") val code: String?,
-        @Json(name = "macCode") val macCode: String?,
-        @Json(name = "name") val name: String?
-    )
+@Parcelize
+data class MacCity(
+    @SerializedName("code")
+    val code: String?,
+    @SerializedName("macCode")
+    val macCode: String?,
+    @SerializedName("name")
+    val name: String?
+) : Parcelable
 
-    data class Region(
-        @Json(name = "code") val code: String?,
-        @Json(name = "name") val name: String?
-    )
+@Parcelize
+data class Region(
+    @SerializedName("code")
+    val code: String?,
+    @SerializedName("name")
+    val name: String?
+) : Parcelable
 
-    data class Country(
-        @Json(name = "code") val code: String?,
-        @Json(name = "name") val name: String?,
-        @Json(name = "currency") val currencyCode: String?
-    )
+@Parcelize
+data class Country(
+    @SerializedName("code")
+    val code: String?,
+    @SerializedName("name")
+    val name: String?,
+    @SerializedName("currency")
+    val currencyCode: String?
+) : Parcelable
 
-    data class Coordinates(
-        @Json(name = "latitude") val latitude: Double?,
-        @Json(name = "longitude") val longitude: Double?
-    )
-}
+@Parcelize
+data class Coordinates(
+    @SerializedName("latitude")
+    val latitude: Double?,
+    @SerializedName("longitude")
+    val longitude: Double?
+) : Parcelable

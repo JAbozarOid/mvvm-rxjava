@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.devtools.ksp' version '1.6.10-1.0.4'
     id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -65,5 +66,22 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // check network status
+    implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.8'
+
+    testImplementation "org.robolectric:robolectric:4.7.3"
+    androidTestImplementation "org.robolectric:robolectric:4.7.3"
+    // For Robolectric tests.
+    testImplementation 'com.google.dagger:hilt-android-testing:2.38.1'
+    // ...with Kotlin.
+    kaptTest 'com.google.dagger:hilt-android-compiler:2.38.1'
+    // For instrumented tests.
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.38.1'
+    // ...with Kotlin.
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.38.1'
+
 
 }

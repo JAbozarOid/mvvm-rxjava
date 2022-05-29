@@ -2,6 +2,7 @@ package com.ryanair.androidchallenge.data.flights.network
 
 import com.ryanair.androidchallenge.data.flights.network.model.FlightResponse
 import io.reactivex.rxjava3.core.Single
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -18,7 +19,7 @@ interface FlightService {
         @Query("chd") child: Int,
         @Query("inf") inf: Int = 0,
         @Query("ToUs") toUs: String = "AGREED"
-    ): FlightResponse
+    ): Response<FlightResponse>
 
     @GET("booking/v4/en-gb/Availability")
     fun getFlightsRx(

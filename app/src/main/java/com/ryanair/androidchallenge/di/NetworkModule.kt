@@ -1,10 +1,12 @@
 package com.ryanair.androidchallenge.di
 
-import com.ryanair.androidchallenge.BuildConfig
 import com.ryanair.androidchallenge.data.airports.network.AirportService
-import com.ryanair.androidchallenge.data.flights.network.FlightService
 import com.ryanair.androidchallenge.data.airports.network.RoutesService
-import com.squareup.moshi.Moshi
+import com.ryanair.androidchallenge.data.flights.network.FlightService
+import com.ryanair.androidchallenge.utils.ApiConstants.Companion.BASE_URL
+import com.ryanair.androidchallenge.utils.ApiConstants.Companion.BASE_URL_SERVICES_API
+import com.ryanair.androidchallenge.utils.network.NetworkCallAdapterFactory
+import com.ryanair.androidchallenge.utils.network.TokenInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,51 +14,82 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetworkModule {
+object NetworkModule {
 
-    @Singleton
+    @CloudRetrofit
     @Provides
-    fun provideMoshi() = Moshi.Builder().build()
-
     @Singleton
-    @Provides
-    fun provideHttpLoggingInterceptor() = HttpLoggingInterceptor().apply {
-        setLevel(HttpLoggingInterceptor.Level.BODY)
+    fun provideOkhttp(tokenInterceptor: TokenInterceptor): OkHttpClient {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        val okhttpBuilder =
+            OkHttpClient().newBuilder().readTimeout(15, TimeUnit.SECONDS)
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .addInterceptor(tokenInterceptor)
+        return okhttpBuilder.build()
     }
 
+    @CloudRetrofit
     @Singleton
     @Provides
-    fun providesOkHttpClient(loggingInterceptor: HttpLoggingInterceptor) =
-        OkHttpClient.Builder().also {
-            if (BuildConfig.DEBUG) {
-                it.addInterceptor(loggingInterceptor)
-            }
-        }.build()
+    fun provideConverterFactory(): GsonConverterFactory {
+        return GsonConverterFactory.create()
+    }
 
+    @CloudRetrofit
     @Singleton
     @Provides
-    fun provideRetrofit(client: OkHttpClient, moshi: Moshi): Retrofit = Retrofit.Builder()
-        // TODO("add URL provided in the task instructions")
-        .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-        .client(client)
-        .build()
+    fun provideRetrofitInstance(
+        @CloudRetrofit okHttpClient: OkHttpClient,
+        @CloudRetrofit gsonConverterFactory: GsonConverterFactory
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL_SERVICES_API)
+            .client(okHttpClient)
+            .addCallAdapterFactory(NetworkCallAdapterFactory())
+            .addConverterFactory(gsonConverterFactory)
+            .build()
+    }
 
-    @Singleton
-    @Provides
-    fun provideAirportService(retrofit: Retrofit): AirportService = retrofit.create(AirportService::class.java)
 
-    @Singleton
     @Provides
-    fun provideRoutesService(retrofit: Retrofit): RoutesService = retrofit.create(RoutesService::class.java)
+    @Singleton
+    fun provideAirportService(
+        @CloudRetrofit
+        retrofit: Retrofit
+    ): AirportService {
+        return retrofit.create(AirportService::class.java)
+    }
 
-    @Singleton
     @Provides
-    fun provideFlightService(retrofit: Retrofit): FlightService = retrofit.create(FlightService::class.java)
+    @Singleton
+    fun provideRoutesService(
+        @CloudRetrofit
+        retrofit: Retrofit
+    ): RoutesService {
+        return retrofit.create(RoutesService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFlightService(
+        @CloudRetrofit
+        retrofit: Retrofit
+    ): FlightService {
+        return retrofit.create(FlightService::class.java)
+    }
+
 }
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class CloudRetrofit
+
