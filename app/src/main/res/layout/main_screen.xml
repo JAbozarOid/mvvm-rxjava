@@ -19,7 +19,6 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
-        android:name="com.ryanair.androidchallenge.ui.fragments.SearchScreenFragment"
         android:layout_width="@dimen/match_constraints"
         android:layout_height="@dimen/match_constraints"
         app:layout_constraintBottom_toBottomOf="parent"

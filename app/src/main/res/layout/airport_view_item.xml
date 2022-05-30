@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="airportModel"
+            type="com.ryanair.androidchallenge.data.airports.network.model.AirportResponse" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cns_root"
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/size_small">
+
+            <TextView
+                android:id="@+id/airportName"
+                style="@style/Text.Subtitle.Large"
+                android:layout_width="@dimen/match_constraints"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_tiny"
+                android:text="@{airportModel.name}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/airportCode"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Wroclaw" />
+
+            <TextView
+                android:id="@+id/airportCode"
+                style="@style/Text.Subtitle.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/size_small"
+                android:text="@{airportModel.code}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/airportName"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="WRO" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

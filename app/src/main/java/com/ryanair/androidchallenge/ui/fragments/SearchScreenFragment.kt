@@ -10,6 +10,7 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.ryanair.androidchallenge.R
 import com.ryanair.androidchallenge.databinding.FragmentSearchScreenBinding
+import com.ryanair.androidchallenge.ui.fragments.airport.AirportScreenFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,7 +23,10 @@ class SearchScreenFragment : Fragment() {
     ): View {
         return FragmentSearchScreenBinding.inflate(inflater, container, false)
             .apply {
-                // TODO("Good luck!")
+                departureView.cnsRoot.setOnClickListener {
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .add(R.id.container, AirportScreenFragment()).addToBackStack(null).commit()
+                }
                 destinationView.title.text = getString(R.string.to)
                 departureDateView.title.text = getString(R.string.departure_date)
                 passengersView.title.text = getString(R.string.passengers)

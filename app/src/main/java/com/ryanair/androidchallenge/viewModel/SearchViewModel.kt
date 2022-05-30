@@ -3,6 +3,8 @@ package com.ryanair.androidchallenge.viewModel
 import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ryanair.androidchallenge.data.airports.network.model.AirportResponse
 import com.ryanair.androidchallenge.repository.airports.AirportsRepository
@@ -11,9 +13,6 @@ import com.ryanair.androidchallenge.utils.ApiResponse
 import com.ryanair.androidchallenge.utils.network.NetworkListener
 import com.ryanair.androidchallenge.utils.network.NetworkUtil.genericRequestCollect
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.subjects.BehaviorSubject
-import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,24 +23,22 @@ class SearchViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val _isProgressEnable: PublishSubject<Boolean> = PublishSubject.create()
-    val isProgressEnable: PublishSubject<Boolean> get() = _isProgressEnable
+    private val _isProgressEnable: MutableLiveData<Boolean> = MutableLiveData()
+    val isProgressEnable: LiveData<Boolean> get() = _isProgressEnable
 
-    private lateinit var _airportsRes: Single<ApiResponse<List<AirportResponse>>>
+    private val _airportRes: MutableLiveData<ApiResponse<List<AirportResponse>>> = MutableLiveData()
+    val airportRes: LiveData<ApiResponse<List<AirportResponse>>> get() = _airportRes
 
-    private var postSubject: BehaviorSubject<List<AirportResponse>> =
-        BehaviorSubject.create()
-
-    private fun setProgressBarVisibility(isVisible: Boolean) {
-        _isProgressEnable.onNext(isVisible)
+    fun setProgressBarVisibility(isVisible: Boolean) {
+        _isProgressEnable.postValue(isVisible)
     }
 
-    private fun showToastErrorMsg(errorMsg: String) {
+    fun showToastErrorMsg(errorMsg: String) {
         Toast.makeText(getApplication(), errorMsg, Toast.LENGTH_SHORT).show()
     }
 
 
-    fun getAirports(): BehaviorSubject<List<AirportResponse>> {
+    fun getAirports() {
         genericRequestCollect(
             body = {
                 airportsRepository.remote.getAirports()
@@ -49,16 +46,8 @@ class SearchViewModel @Inject constructor(
             mNetworkListener,
             viewModelScope
         ) {
-            when(it) {
-                is ApiResponse.Error -> TODO()
-                is ApiResponse.ErrorTryAgain -> TODO()
-                is ApiResponse.Loading -> TODO()
-                is ApiResponse.Success -> {
-                    postSubject.onNext(it.data)
-                }
-            }
+            _airportRes.postValue(it)
         }
 
-        return postSubject
     }
 }

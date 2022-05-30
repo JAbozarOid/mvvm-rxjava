@@ -29,4 +29,6 @@
     <string name="flight_details">Flight details</string>
     <string name="price_range">Price range:</string>
     <string name="no_filter_results">There are no flights in selected price range</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -4,8 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/airport_screen.xml" value="0.2801418439716312" />
+        <entry key="app/src/main/res/layout/airport_view_item.xml" value="0.2801418439716312" />
         <entry key="app/src/main/res/layout/flight_view_item.xml" value="0.2801418439716312" />
-        <entry key="app/src/main/res/layout/main_screen.xml" value="0.2801418439716312" />
+        <entry key="app/src/main/res/layout/fragment_airport_screen.xml" value="0.2801418439716312" />
+        <entry key="app/src/main/res/layout/main_screen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/search_screen.xml" value="0.2801418439716312" />
         <entry key="app/src/main/res/layout/search_view_item.xml" value="0.2801418439716312" />
         <entry key="app/src/main/res/layout/segment_item.xml" value="0.2801418439716312" />
