@@ -1,4 +1,4 @@
-package com.ryanair.androidchallenge.search.ui
+package com.ryanair.androidchallenge.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,19 +9,24 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.ryanair.androidchallenge.R
-import com.ryanair.androidchallenge.databinding.SearchScreenBinding
+import com.ryanair.androidchallenge.databinding.FragmentSearchScreenBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchScreen : Fragment() {
+class SearchScreenFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return SearchScreenBinding.inflate(inflater, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return FragmentSearchScreenBinding.inflate(inflater, container, false)
             .apply {
                 // TODO("Good luck!")
                 destinationView.title.text = getString(R.string.to)
                 departureDateView.title.text = getString(R.string.departure_date)
                 passengersView.title.text = getString(R.string.passengers)
+
             }.root
     }
 
@@ -44,7 +49,6 @@ class SearchScreen : Fragment() {
     }
 
     companion object {
-
         private const val DATE_PICKER_TAG = "MaterialDatePicker"
     }
 
